@@ -112,8 +112,8 @@ console.log("📖 Citator starting up...");
 console.log(`   Default Version: ${DEFAULT_VERSION}`);
 console.log(`   Daily Verse Schedule: ${DAILY_VERSE_SCHEDULE} (${TIMEZONE})`);
 
-// Event: Ready
-client.on("ready", () => {
+// Event: Client Ready
+client.on("clientReady", () => {
   console.log(`✅ Logged in as ${client.user?.username}#${client.user?.discriminator}`);
   console.log(`   ID: ${client.user?.id}`);
   console.log(`   Servers: ${client.guilds.cache.size}`);
