@@ -16,7 +16,35 @@ A Discord Bible bot built with **Deno** - delivers scripture directly from your 
 - **⚡ Fast & Lightweight** - Built on Deno for modern, secure runtime
 - **🛡️ Anti-Raid** - Automatically kicks accounts less than 2 days old
 
-## 🚀 Quick Start
+## 🚀 Deployment
+
+### Railway (Recommended)
+
+1. Push your code to GitHub
+2. Go to [Railway](https://railway.app/) and create a new project
+3. Select **Deploy from GitHub repo**
+4. Choose your `citator` repository
+5. Add environment variables:
+   - `CITATOR_DISCORD_TOKEN` - Your bot token
+   - `CITATOR_GUILD_ID` (optional) - Your server ID for instant commands
+6. Deploy!
+
+Railway will automatically detect the `Dockerfile` and deploy your bot.
+
+### GCP / VPS
+
+```bash
+# Install Deno
+curl -fsSL https://deno.land/install.sh | sh
+
+# Clone and run
+git clone https://github.com/euxaristia/citator.git
+cd citator
+export CITATOR_DISCORD_TOKEN=your_token_here
+deno task start
+```
+
+For production, use a process manager like `pm2` or create a `systemd` service.
 
 ### Prerequisites
 
