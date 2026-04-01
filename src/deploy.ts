@@ -11,13 +11,36 @@ const CITATOR_DISCORD_TOKEN = Deno.env.get("CITATOR_DISCORD_TOKEN");
 const CITATOR_CLIENT_ID = Deno.env.get("CITATOR_CLIENT_ID");
 const CITATOR_GUILD_ID = Deno.env.get("CITATOR_GUILD_ID");
 
-if (!CITATOR_DISCORD_TOKEN || !CITATOR_CLIENT_ID) {
-  console.error("❌ Missing CITATOR_DISCORD_TOKEN or CITATOR_CLIENT_ID in environment");
+if (!CITATOR_DISCORD_TOKEN) {
+  console.error("❌ Missing required environment variable: CITATOR_DISCORD_TOKEN");
   Deno.exit(1);
 }
 
 // Create REST client
 const rest = new REST({ version: "10" }).setToken(CITATOR_DISCORD_TOKEN);
+
+// Get client ID from env or fetch from API
+let clientId = CITATOR_CLIENT_ID;
+if (!clientId) {
+  console.log("⏳ No CITATOR_CLIENT_ID provided, fetching from Discord API...");
+  try {
+    const response = await fetch("https://discord.com/api/v10/users/@me", {
+      headers: {
+        Authorization: `Bot ${CITATOR_DISCORD_TOKEN}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch client ID: ${response.status} ${response.statusText}`);
+    }
+    const data = await response.json();
+    clientId = data.id;
+    console.log(`✅ Found client ID: ${clientId}`);
+  } catch (error) {
+    console.error("❌ Failed to fetch client ID:", error);
+    console.error("   Please set CITATOR_CLIENT_ID environment variable");
+    Deno.exit(1);
+  }
+}
 
 // Get commands
 const commands = createCommandDefinitions();
@@ -28,7 +51,7 @@ try {
   if (CITATOR_GUILD_ID) {
     // Guild-specific commands (faster for testing)
     const responseData = await rest.put(
-      Routes.applicationGuildCommands(CITATOR_CLIENT_ID, CITATOR_GUILD_ID),
+      Routes.applicationGuildCommands(clientId, CITATOR_GUILD_ID),
       { body: commands }
     );
     console.log(
@@ -39,7 +62,7 @@ try {
   } else {
     // Global commands
     const responseData = await rest.put(
-      Routes.applicationCommands(CITATOR_CLIENT_ID),
+      Routes.applicationCommands(clientId),
       { body: commands }
     );
     console.log(

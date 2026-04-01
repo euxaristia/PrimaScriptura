@@ -16,11 +16,8 @@ const DAILY_VERSE_SCHEDULE = Deno.env.get("DAILY_VERSE_SCHEDULE") || "0 8 * * *"
 const DEFAULT_VERSION = Deno.env.get("DEFAULT_VERSION") || "ESV";
 const TIMEZONE = Deno.env.get("TIMEZONE") || "America/New_York";
 
-if (!CITATOR_DISCORD_TOKEN || !CITATOR_CLIENT_ID) {
-  console.error("❌ Missing required environment variables:");
-  console.error("   - CITATOR_DISCORD_TOKEN");
-  console.error("   - CITATOR_CLIENT_ID");
-  console.error("\nPlease copy .env.example to .env and fill in your values.");
+if (!CITATOR_DISCORD_TOKEN) {
+  console.error("❌ Missing required environment variable: CITATOR_DISCORD_TOKEN");
   Deno.exit(1);
 }
 

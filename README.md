@@ -44,11 +44,16 @@ cd citator
 
 ### 3. Set environment variables
 
+**Required:**
 ```bash
 export CITATOR_DISCORD_TOKEN=your_bot_token_here
-export CITATOR_CLIENT_ID=your_client_id_here
-export CITATOR_GUILD_ID=your_guild_id_here  # Optional: for faster command testing
-export DAILY_VERSE_SCHEDULE="0 8 * * *"     # 8:00 AM daily
+```
+
+**Optional:**
+```bash
+export CITATOR_CLIENT_ID=your_client_id_here        # Auto-fetched if not provided
+export CITATOR_GUILD_ID=your_guild_id_here          # For faster command testing
+export DAILY_VERSE_SCHEDULE="0 8 * * *"             # 8:00 AM daily
 export DEFAULT_VERSION=ESV
 export TIMEZONE=America/New_York
 ```
@@ -103,7 +108,7 @@ Supported formats:
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `CITATOR_DISCORD_TOKEN` | ✅ | - | Your Discord bot token |
-| `CITATOR_CLIENT_ID` | ✅ | - | Your application's client ID |
+| `CITATOR_CLIENT_ID` | ❌ | Auto-fetched | Your application's client ID |
 | `CITATOR_GUILD_ID` | ❌ | - | Guild ID for testing (commands appear instantly) |
 | `DAILY_VERSE_SCHEDULE` | ❌ | `0 8 * * *` | Cron-like schedule for daily verses |
 | `DEFAULT_VERSION` | ❌ | `ESV` | Default Bible version |
