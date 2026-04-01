@@ -40,6 +40,9 @@ const client = new Client({
 // Track channels for daily verses (in production, you'd want to persist this)
 const dailyVerseChannels = new Set<string>();
 
+// Minimum account age in milliseconds (2 days)
+const MIN_ACCOUNT_AGE = 2 * 24 * 60 * 60 * 1000;
+
 /**
  * Send a message to a channel
  */
@@ -119,10 +122,43 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-// Event: Guild member add (welcome message with bot info)
+// Event: Guild member add - kick accounts less than 2 days old
 client.on("guildMemberAdd", async (member) => {
-  // You could send a welcome DM here with bot info
-  console.log(`New member joined: ${member.user.username} in guild ${member.guild.id}`);
+  const accountCreatedAt = member.user.createdTimestamp;
+  const now = Date.now();
+  const accountAge = now - accountCreatedAt;
+
+  if (accountAge < MIN_ACCOUNT_AGE) {
+    const accountAgeHours = Math.floor(accountAge / 1000 / 60 / 60);
+    
+    console.log(
+      `🛡️ Auto-kick: ${member.user.username}#${member.user.discriminator} ` +
+      `(${member.user.id}) - Account only ${accountAgeHours}h old`
+    );
+
+    try {
+      // Try to DM the user first to explain why they were kicked
+      await member.user.send(
+        `You were automatically kicked from **${member.guild.name}** because your Discord account is less than 2 days old. ` +
+        `This is an anti-raid measure. Please try again once your account is older.`
+      ).catch(() => {
+        // Ignore if can't DM (user has DMs disabled)
+      });
+
+      // Kick the member
+      await member.kick("Account less than 2 days old - anti-raid measure");
+      
+      // Log to console
+      console.log(`✅ Successfully kicked ${member.user.username} from ${member.guild.name}`);
+    } catch (error) {
+      console.error(
+        `❌ Failed to kick ${member.user.username} from ${member.guild.name}:`,
+        error instanceof Error ? error.message : error
+      );
+    }
+  } else {
+    console.log(`New member joined: ${member.user.username} in guild ${member.guild.id}`);
+  }
 });
 
 // Event: Ready for daily verse channel management commands

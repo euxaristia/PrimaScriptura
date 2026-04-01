@@ -14,6 +14,7 @@ A Discord Bible bot built with **Deno** - delivers scripture directly from your 
 - **📚 Multiple Versions** - Support for 9+ Bible translations (ESV, KJV, NIV, NASB, WEB, etc.)
 - **⏰ Scheduled Posts** - Configurable daily verse schedule with timezone support
 - **⚡ Fast & Lightweight** - Built on Deno for modern, secure runtime
+- **🛡️ Anti-Raid** - Automatically kicks accounts less than 2 days old
 
 ## 🚀 Quick Start
 
@@ -164,6 +165,7 @@ The bot requires these Discord permissions:
 - Send Messages
 - Use Slash Commands
 - Embed Links (for better formatting)
+- **Kick Members** (for anti-raid protection)
 
 ## 🤝 Contributing
 
