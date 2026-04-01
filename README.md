@@ -4,14 +4,13 @@ A Discord Bible bot built with **Deno** - delivers scripture directly from your 
 
 ![Deno](https://img.shields.io/badge/Deno-1.x-black?logo=deno)
 ![Discord](https://img.shields.io/badge/Discord-Bot-5865F2?logo=discord)
-![License](https://img.shields.io/badge/License-MIT-green)
 
 ## ✨ Features
 
 - **📖 Verse Lookup** - Get any Bible verse by reference (e.g., `/verse John 3:16`)
 - **🌟 Daily Verse** - Automatic daily verse delivery to configured channels
 - **🎲 Random Verse** - Get a random Bible verse for inspiration
-- **📚 Multiple Versions** - Support for 9+ Bible translations (ESV, KJV, NIV, NASB, WEB, etc.)
+- **📚 Multiple Versions** - Support for 13 Bible versions (KJV, WEB, VULG, WLC, LXX, SBLGNT, etc.)
 - **⏰ Scheduled Posts** - Configurable daily verse schedule with timezone support
 - **⚡ Fast & Lightweight** - Built on Deno for modern, secure runtime
 - **🛡️ Anti-Raid** - Automatically kicks accounts less than 2 days old
