@@ -152,6 +152,7 @@ deno-biblebot/
 deno task start    # Start the bot
 deno task dev      # Start with auto-reload
 deno task deploy   # Deploy slash commands
+deno task test     # Run test suite
 ```
 
 ### Adding New Commands
