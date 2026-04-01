@@ -6,6 +6,7 @@
  */
 
 import { Client } from "@discordjs/core";
+import { GatewayIntentBits } from "discord-api-types/v10";
 import { BibleService } from "./services/bible.ts";
 import { DailyVerseScheduler } from "./services/scheduler.ts";
 import { createCommandHandlers } from "./commands/commands.ts";
@@ -48,10 +49,14 @@ if (!clientId) {
 const bibleService = new BibleService(DEFAULT_VERSION);
 const commandHandlers = createCommandHandlers(bibleService);
 
-// Create Discord client
+// Create Discord client with WebSocket support
 const client = new Client({
   token: CITATOR_DISCORD_TOKEN,
   applicationId: clientId,
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+  ],
 });
 
 // Track channels for daily verses (in production, you'd want to persist this)
