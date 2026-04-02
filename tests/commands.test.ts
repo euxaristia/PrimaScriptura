@@ -5,9 +5,9 @@
 import { assertEquals, assertExists } from "jsr:@std/assert";
 import { BibleService } from "../src/services/bible.ts";
 import {
-  createCommandHandlers,
-  createCommandDefinitions,
   type CommandHandler,
+  createCommandDefinitions,
+  createCommandHandlers,
 } from "../src/commands/commands.ts";
 
 Deno.test("createCommandDefinitions - returns array", () => {
@@ -146,10 +146,10 @@ Deno.test("CommandHandler - random - returns verse", async () => {
     assertEquals(embedJson.title, "Random Verse");
   } else {
     assertEquals(
-      result.content?.includes("Random Verse") || 
-      result.content?.includes("Error") || 
-      result.content?.includes("❌"),
-      true
+      result.content?.includes("Random Verse") ||
+        result.content?.includes("Error") ||
+        result.content?.includes("❌"),
+      true,
     );
   }
 });
@@ -192,7 +192,7 @@ Deno.test("CommandHandler - help - returns embed", async () => {
   assertEquals(embedJson.title, "📖 PrimaScriptura Help");
   // Check fields contain command info
   const fields = embedJson.fields || [];
-  const hasCommands = fields.some((f: any) => 
+  const hasCommands = fields.some((f: any) =>
     f.value?.includes("/verse") || f.name?.includes("/verse")
   );
   assertEquals(hasCommands, true);

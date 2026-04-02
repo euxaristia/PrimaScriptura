@@ -23,7 +23,7 @@ export class DailyVerseScheduler {
     bibleService: BibleService,
     schedule: string,
     timezone: string,
-    sendToChannel: (channelId: string, embed: EmbedBuilder) => Promise<void>
+    sendToChannel: (channelId: string, embed: EmbedBuilder) => Promise<void>,
   ) {
     this.bibleService = bibleService;
     this.schedule = schedule;
@@ -73,7 +73,9 @@ export class DailyVerseScheduler {
     const delay = nextRun.getTime() - now.getTime();
 
     console.log(
-      `[Scheduler] Next daily verse scheduled for: ${nextRun.toISOString()} (in ${Math.round(delay / 1000 / 60)} minutes)`
+      `[Scheduler] Next daily verse scheduled for: ${nextRun.toISOString()} (in ${
+        Math.round(delay / 1000 / 60)
+      } minutes)`,
     );
 
     this.timerId = setTimeout(() => {
@@ -92,7 +94,7 @@ export class DailyVerseScheduler {
     const hour = parseInt(parts[1]);
 
     const next = new Date(
-      now.toLocaleString("en-US", { timeZone: this.timezone })
+      now.toLocaleString("en-US", { timeZone: this.timezone }),
     );
 
     // Set to scheduled time today
@@ -124,14 +126,14 @@ export class DailyVerseScheduler {
         } catch (error) {
           console.error(
             `[Scheduler] Failed to send to channel ${channel.channelId}:`,
-            error instanceof Error ? error.message : error
+            error instanceof Error ? error.message : error,
           );
         }
       }
     } catch (error) {
       console.error(
         "[Scheduler] Error fetching daily verse:",
-        error instanceof Error ? error.message : error
+        error instanceof Error ? error.message : error,
       );
     }
   }

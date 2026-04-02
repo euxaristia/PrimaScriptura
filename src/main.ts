@@ -5,10 +5,10 @@
  * Scripture from your Discord client to your heart ❤️
  */
 
-import { Client, GatewayIntentBits, REST, Routes, EmbedBuilder, Message } from "npm:discord.js";
+import { Client, EmbedBuilder, GatewayIntentBits, Message, REST, Routes } from "npm:discord.js";
 import { BibleService } from "./services/bible.ts";
 import { DailyVerseScheduler } from "./services/scheduler.ts";
-import { createCommandHandlers, createCommandDefinitions } from "./commands/commands.ts";
+import { createCommandDefinitions, createCommandHandlers } from "./commands/commands.ts";
 import { MessageHandler } from "./services/message-handler.ts";
 
 const PRIMASCRIPTURA_DISCORD_TOKEN = Deno.env.get("PRIMASCRIPTURA_DISCORD_TOKEN");
@@ -60,13 +60,13 @@ try {
   if (PRIMASCRIPTURA_GUILD_ID) {
     await rest.put(
       Routes.applicationGuildCommands(clientId, PRIMASCRIPTURA_GUILD_ID),
-      { body: commands }
+      { body: commands },
     );
     console.log(`✅ Registered guild commands for server ${PRIMASCRIPTURA_GUILD_ID}`);
   } else {
     await rest.put(
       Routes.applicationCommands(clientId),
-      { body: commands }
+      { body: commands },
     );
     console.log(`✅ Registered global commands (may take up to 1 hour to appear)`);
   }
@@ -111,7 +111,7 @@ const scheduler = new DailyVerseScheduler(
   bibleService,
   DAILY_VERSE_SCHEDULE,
   TIMEZONE,
-  sendToChannel
+  sendToChannel,
 );
 
 console.log("📖 PrimaScriptura starting up...");
@@ -182,7 +182,10 @@ client.on("messageCreate", async (message: Message) => {
   try {
     await messageHandler.processMessage(message);
   } catch (error) {
-    console.error(`[MessageHandler] Error processing message:`, error instanceof Error ? error.message : error);
+    console.error(
+      `[MessageHandler] Error processing message:`,
+      error instanceof Error ? error.message : error,
+    );
   }
 });
 
@@ -203,14 +206,14 @@ client.on("guildMemberAdd", async (member) => {
 
     console.log(
       `🛡️ Auto-kick: ${member.user.username}#${member.user.discriminator} ` +
-      `(${member.user.id}) - Account only ${accountAgeHours}h old`
+        `(${member.user.id}) - Account only ${accountAgeHours}h old`,
     );
 
     try {
       // Try to DM the user first to explain why they were kicked
       await member.user.send(
         `You were automatically kicked from **${member.guild.name}** because your Discord account is less than 2 days old. ` +
-        `This is an anti-raid measure. Please try again once your account is older.`
+          `This is an anti-raid measure. Please try again once your account is older.`,
       ).catch(() => {
         // Ignore if can't DM (user has DMs disabled)
       });
@@ -223,7 +226,7 @@ client.on("guildMemberAdd", async (member) => {
     } catch (error) {
       console.error(
         `❌ Failed to kick ${member.user.username} from ${member.guild.name}:`,
-        error instanceof Error ? error.message : error
+        error instanceof Error ? error.message : error,
       );
     }
   } else {

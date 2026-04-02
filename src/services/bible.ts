@@ -10,37 +10,142 @@ const BOLLS_API_BASE = "https://bolls.life";
 
 // Book name to 3-letter code mapping for bolls.life
 const bookToCode: Record<string, string> = {
-  "genesis": "GEN", "exodus": "EXO", "leviticus": "LEV", "numbers": "NUM",
-  "deuteronomy": "DEU", "joshua": "JOS", "judges": "JDG", "ruth": "RUT",
-  "1 samuel": "1SA", "2 samuel": "2SA", "1 kings": "1KI", "2 kings": "2KI",
-  "1 chronicles": "1CH", "2 chronicles": "2CH", "ezra": "EZR", "nehemiah": "NEH",
-  "esther": "EST", "job": "JOB", "psalms": "PSA", "proverbs": "PRO",
-  "ecclesiastes": "ECC", "song of solomon": "SOL", "isaiah": "ISA",
-  "jeremiah": "JER", "lamentations": "LAM", "ezekiel": "EZK", "daniel": "DAN",
-  "hosea": "HOS", "joel": "JOL", "amos": "AMO", "obadiah": "OBA",
-  "jonah": "JON", "micah": "MIC", "nahum": "NAM", "habakkuk": "HAB",
-  "zephaniah": "ZEP", "haggai": "HAG", "zechariah": "ZEC", "malachi": "MAL",
-  "matthew": "MAT", "mark": "MRK", "luke": "LUK", "john": "JHN",
-  "acts": "ACT", "romans": "ROM", "1 corinthians": "1CO", "2 corinthians": "2CO",
-  "galatians": "GAL", "ephesians": "EPH", "philippians": "PHP", "colossians": "COL",
-  "1 thessalonians": "1TH", "2 thessalonians": "2TH", "1 timothy": "1TI",
-  "2 timothy": "2TI", "titus": "TIT", "philemon": "PHM", "hebrews": "HEB",
-  "james": "JAS", "1 peter": "1PE", "2 peter": "2PE", "1 john": "1JN",
-  "2 john": "2JN", "3 john": "3JN", "jude": "JUD", "revelation": "REV",
+  "genesis": "GEN",
+  "exodus": "EXO",
+  "leviticus": "LEV",
+  "numbers": "NUM",
+  "deuteronomy": "DEU",
+  "joshua": "JOS",
+  "judges": "JDG",
+  "ruth": "RUT",
+  "1 samuel": "1SA",
+  "2 samuel": "2SA",
+  "1 kings": "1KI",
+  "2 kings": "2KI",
+  "1 chronicles": "1CH",
+  "2 chronicles": "2CH",
+  "ezra": "EZR",
+  "nehemiah": "NEH",
+  "esther": "EST",
+  "job": "JOB",
+  "psalms": "PSA",
+  "proverbs": "PRO",
+  "ecclesiastes": "ECC",
+  "song of solomon": "SOL",
+  "isaiah": "ISA",
+  "jeremiah": "JER",
+  "lamentations": "LAM",
+  "ezekiel": "EZK",
+  "daniel": "DAN",
+  "hosea": "HOS",
+  "joel": "JOL",
+  "amos": "AMO",
+  "obadiah": "OBA",
+  "jonah": "JON",
+  "micah": "MIC",
+  "nahum": "NAM",
+  "habakkuk": "HAB",
+  "zephaniah": "ZEP",
+  "haggai": "HAG",
+  "zechariah": "ZEC",
+  "malachi": "MAL",
+  "matthew": "MAT",
+  "mark": "MRK",
+  "luke": "LUK",
+  "john": "JHN",
+  "acts": "ACT",
+  "romans": "ROM",
+  "1 corinthians": "1CO",
+  "2 corinthians": "2CO",
+  "galatians": "GAL",
+  "ephesians": "EPH",
+  "philippians": "PHP",
+  "colossians": "COL",
+  "1 thessalonians": "1TH",
+  "2 thessalonians": "2TH",
+  "1 timothy": "1TI",
+  "2 timothy": "2TI",
+  "titus": "TIT",
+  "philemon": "PHM",
+  "hebrews": "HEB",
+  "james": "JAS",
+  "1 peter": "1PE",
+  "2 peter": "2PE",
+  "1 john": "1JN",
+  "2 john": "2JN",
+  "3 john": "3JN",
+  "jude": "JUD",
+  "revelation": "REV",
 };
 
 // 3-letter code to book ID mapping for bolls.life
 const codeToId: Record<string, number> = {
-  "GEN": 1, "EXO": 2, "LEV": 3, "NUM": 4, "DEU": 5, "JOS": 6, "JDG": 7,
-  "RUT": 8, "1SA": 9, "2SA": 10, "1KI": 11, "2KI": 12, "1CH": 13, "2CH": 14,
-  "EZR": 15, "NEH": 16, "EST": 17, "JOB": 18, "PSA": 19, "PRO": 20, "ECC": 21,
-  "SOL": 22, "ISA": 23, "JER": 24, "LAM": 25, "EZK": 26, "DAN": 27, "HOS": 28,
-  "JOL": 29, "AMO": 30, "OBA": 31, "JON": 32, "MIC": 33, "NAM": 34, "HAB": 35,
-  "ZEP": 36, "HAG": 37, "ZEC": 38, "MAL": 39, "MAT": 40, "MRK": 41, "LUK": 42,
-  "JHN": 43, "ACT": 44, "ROM": 45, "1CO": 46, "2CO": 47, "GAL": 48, "EPH": 49,
-  "PHP": 50, "COL": 51, "1TH": 52, "2TH": 53, "1TI": 54, "2TI": 55, "TIT": 56,
-  "PHM": 57, "HEB": 58, "JAS": 59, "1PE": 60, "2PE": 61, "1JN": 62, "2JN": 63,
-  "3JN": 64, "JUD": 65, "REV": 66,
+  "GEN": 1,
+  "EXO": 2,
+  "LEV": 3,
+  "NUM": 4,
+  "DEU": 5,
+  "JOS": 6,
+  "JDG": 7,
+  "RUT": 8,
+  "1SA": 9,
+  "2SA": 10,
+  "1KI": 11,
+  "2KI": 12,
+  "1CH": 13,
+  "2CH": 14,
+  "EZR": 15,
+  "NEH": 16,
+  "EST": 17,
+  "JOB": 18,
+  "PSA": 19,
+  "PRO": 20,
+  "ECC": 21,
+  "SOL": 22,
+  "ISA": 23,
+  "JER": 24,
+  "LAM": 25,
+  "EZK": 26,
+  "DAN": 27,
+  "HOS": 28,
+  "JOL": 29,
+  "AMO": 30,
+  "OBA": 31,
+  "JON": 32,
+  "MIC": 33,
+  "NAM": 34,
+  "HAB": 35,
+  "ZEP": 36,
+  "HAG": 37,
+  "ZEC": 38,
+  "MAL": 39,
+  "MAT": 40,
+  "MRK": 41,
+  "LUK": 42,
+  "JHN": 43,
+  "ACT": 44,
+  "ROM": 45,
+  "1CO": 46,
+  "2CO": 47,
+  "GAL": 48,
+  "EPH": 49,
+  "PHP": 50,
+  "COL": 51,
+  "1TH": 52,
+  "2TH": 53,
+  "1TI": 54,
+  "2TI": 55,
+  "TIT": 56,
+  "PHM": 57,
+  "HEB": 58,
+  "JAS": 59,
+  "1PE": 60,
+  "2PE": 61,
+  "1JN": 62,
+  "2JN": 63,
+  "3JN": 64,
+  "JUD": 65,
+  "REV": 66,
 };
 
 // bolls.life ONLY versions (not in bible-api.com)
@@ -89,9 +194,9 @@ export class BibleService {
   async getVerses(
     book: string,
     chapter: number,
-    verseStart: number,
+    verseStart?: number,
     verseEnd?: number,
-    version?: string
+    version?: string,
   ): Promise<BibleVerse[]> {
     const v = version || this.defaultVersion;
     const api = this.getApiForVersion(v);
@@ -108,15 +213,22 @@ export class BibleService {
   private async getVersesFromBibleApi(
     book: string,
     chapter: number,
-    verseStart: number,
+    verseStart?: number,
     verseEnd?: number,
-    version?: string
+    version?: string,
   ): Promise<BibleVerse[]> {
     const v = version || this.defaultVersion;
-    const verseRange = verseEnd ? `${verseStart}-${verseEnd}` : `${verseStart}`;
-    const reference = `${book} ${chapter}:${verseRange}`;
+    let reference: string;
+    if (verseStart === undefined) {
+      reference = `${book} ${chapter}`;
+    } else {
+      const verseRange = verseEnd ? `${verseStart}-${verseEnd}` : `${verseStart}`;
+      reference = `${book} ${chapter}:${verseRange}`;
+    }
 
-    const url = `${BIBLE_API_BASE}/${encodeURIComponent(reference)}?translation=${encodeURIComponent(v)}`;
+    const url = `${BIBLE_API_BASE}/${encodeURIComponent(reference)}?translation=${
+      encodeURIComponent(v)
+    }`;
 
     console.log(`[BibleAPI] Fetching: ${url}`);
 
@@ -147,7 +259,7 @@ export class BibleService {
       verse: verse.verse,
       text: this.cleanText(verse.text),
       version: apiVersion,
-      reference: `${verse.book_name} ${verse.chapter}:${verse.verse}`
+      reference: `${verse.book_name} ${verse.chapter}:${verse.verse}`,
     }));
   }
 
@@ -157,9 +269,9 @@ export class BibleService {
   private async getVersesFromBolls(
     book: string,
     chapter: number,
-    verseStart: number,
+    verseStart?: number,
     verseEnd?: number,
-    version?: string
+    version?: string,
   ): Promise<BibleVerse[]> {
     const v = version || this.defaultVersion;
     const bookCode = bookToCode[book.toLowerCase()];
@@ -194,14 +306,24 @@ export class BibleService {
     const data: any[] = await response.json();
     console.log(`[BollsAPI] Response: ${data.length} verses`);
 
-    // bolls.life returns a flat array of verses
-    const filteredVerses = data.filter(
-      (verse: any) => verse.verse >= verseStart && (verseEnd === undefined ? verse.verse === verseStart : verse.verse <= verseEnd)
-    );
+    // bolls.life returns a flat array of verses — filter if specific verses requested
+    let filteredVerses: any[];
+    if (verseStart === undefined) {
+      filteredVerses = data;
+    } else {
+      filteredVerses = data.filter(
+        (verse: any) =>
+          verse.verse >= verseStart &&
+          (verseEnd === undefined ? verse.verse === verseStart : verse.verse <= verseEnd),
+      );
+    }
 
     if (filteredVerses.length === 0) {
-      console.error(`[BollsAPI] No verses found for ${book} ${chapter}:${verseStart}${verseEnd ? `-${verseEnd}` : ""}`);
-      throw new Error(`No verses found for ${book} ${chapter}:${verseStart}${verseEnd ? `-${verseEnd}` : ""}`);
+      const verseRef = verseStart !== undefined
+        ? `${chapter}:${verseStart}${verseEnd ? `-${verseEnd}` : ""}`
+        : `${chapter}`;
+      console.error(`[BollsAPI] No verses found for ${book} ${verseRef}`);
+      throw new Error(`No verses found for ${book} ${verseRef}`);
     }
 
     // Get book name from first verse
@@ -213,7 +335,7 @@ export class BibleService {
       verse: verse.verse,
       text: this.cleanText(verse.text),
       version: v,
-      reference: `${bookName} ${chapter}:${verse.verse}`
+      reference: `${bookName} ${chapter}:${verse.verse}`,
     }));
   }
 
@@ -222,9 +344,9 @@ export class BibleService {
    */
   private cleanText(text: string): string {
     return text
-      .replace(/<[^>]*>/g, "")  // Remove HTML tags
-      .replace(/[\n\r]+/g, " ")  // Replace newlines with spaces
-      .replace(/\s+/g, " ")      // Normalize multiple spaces to single
+      .replace(/<[^>]*>/g, "") // Remove HTML tags
+      .replace(/[\n\r]+/g, " ") // Replace newlines with spaces
+      .replace(/\s+/g, " ") // Normalize multiple spaces to single
       .trim();
   }
 
@@ -273,7 +395,7 @@ export class BibleService {
     const verses_result = await this.getVerses(
       selectedVerse.book,
       selectedVerse.chapter,
-      selectedVerse.verse
+      selectedVerse.verse,
     );
 
     return verses_result[0];
@@ -284,7 +406,7 @@ export class BibleService {
    */
   async search(text: string, version?: string): Promise<BibleVerse[]> {
     throw new Error(
-      "Text search is not available. Please use specific verse references instead."
+      "Text search is not available. Please use specific verse references instead.",
     );
   }
 
@@ -304,25 +426,25 @@ export class BibleService {
 
     const version = verses[0].version;
     const reference = this.formatReference(verses);
-    const fullText = verses.map(v => v.text).join(" ");
-    
+    const fullText = verses.map((v) => v.text).join(" ");
+
     // Build the full message to check length
     const fullMessage = `📖 ${fullText}\n\n*${reference} (${version})*`;
-    
+
     // If within limit, return as-is
     if (fullMessage.length <= maxCharacters) {
       return fullMessage;
     }
-    
+
     // Truncate and add ellipsis with note
     const header = `📖 `;
     const footer = `\n\n*${reference} (${version})*`;
     const note = "\n\n*(Passage truncated due to Discord's 2000 character limit)*";
     const reservedLength = header.length + footer.length + note.length + 3; // +3 for "..."
-    
+
     const maxTextLength = maxCharacters - reservedLength;
     const truncatedText = fullText.slice(0, maxTextLength).trim() + "...";
-    
+
     return header + truncatedText + footer + note;
   }
 
@@ -336,8 +458,8 @@ export class BibleService {
 
     const version = verses[0].version;
     const reference = this.formatReference(verses);
-    const fullText = verses.map(v => v.text).join(" ");
-    
+    const fullText = verses.map((v) => v.text).join(" ");
+
     // Version display names
     const versionNames: Record<string, string> = {
       "KJV": "King James Version",
@@ -357,7 +479,7 @@ export class BibleService {
 
     const versionDisplayName = versionNames[version] || version;
     const embedTitle = title ? `${title}` : `${reference}`;
-    
+
     const embed = new EmbedBuilder()
       .setColor(0x5865F2)
       .setTitle(embedTitle)
@@ -369,7 +491,9 @@ export class BibleService {
     if (fullMessage > 2000) {
       const truncatedText = fullText.slice(0, 1900).trim() + "...";
       embed.setDescription(truncatedText);
-      embed.setFooter({ text: `${reference} - ${versionDisplayName} (Passage truncated due to Discord's limit)` });
+      embed.setFooter({
+        text: `${reference} - ${versionDisplayName} (Passage truncated due to Discord's limit)`,
+      });
     }
 
     return embed;
@@ -410,15 +534,16 @@ export class BibleService {
   parseReference(ref: string): {
     book: string;
     chapter: number;
-    verseStart: number;
+    verseStart?: number;
     verseEnd?: number;
   } | null {
-    const patterns = [
+    // Patterns with verse numbers: "John 3:16", "John 3:16-18", "John 3 16-18"
+    const versePatterns = [
       /^([123]?\s?[A-Za-z]+(?:\s+of\s+[A-Za-z]+)?)\s+(\d+):(\d+)(?:-(\d+))?$/,
       /^([123]?\s?[A-Za-z]+)\s+(\d+)\s+(\d+)(?:-(\d+))?$/,
     ];
 
-    for (const pattern of patterns) {
+    for (const pattern of versePatterns) {
       const match = ref.match(pattern);
       if (match) {
         const [, book, chapter, verseStart, verseEnd] = match;
@@ -426,9 +551,20 @@ export class BibleService {
           book: book.trim(),
           chapter: parseInt(chapter),
           verseStart: parseInt(verseStart),
-          verseEnd: verseEnd ? parseInt(verseEnd) : undefined
+          verseEnd: verseEnd ? parseInt(verseEnd) : undefined,
         };
       }
+    }
+
+    // Chapter-only pattern: "John 3", "Psalm 23", "1 John 3"
+    const chapterPattern = /^([123]?\s?[A-Za-z]+(?:\s+of\s+[A-Za-z]+)?)\s+(\d+)$/;
+    const chapterMatch = ref.match(chapterPattern);
+    if (chapterMatch) {
+      const [, book, chapter] = chapterMatch;
+      return {
+        book: book.trim(),
+        chapter: parseInt(chapter),
+      };
     }
 
     return null;

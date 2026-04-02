@@ -51,26 +51,24 @@ try {
     // Guild-specific commands (faster for testing)
     const responseData = await rest.put(
       Routes.applicationGuildCommands(clientId, PRIMASCRIPTURA_GUILD_ID),
-      { body: commands }
+      { body: commands },
     );
     console.log(
       `✅ Successfully registered ${
         (responseData as any[]).length
-      } guild commands for guild ${PRIMASCRIPTURA_GUILD_ID}`
+      } guild commands for guild ${PRIMASCRIPTURA_GUILD_ID}`,
     );
   } else {
     // Global commands
     const responseData = await rest.put(
       Routes.applicationCommands(clientId),
-      { body: commands }
+      { body: commands },
     );
     console.log(
-      `✅ Successfully registered ${
-        (responseData as any[]).length
-      } global commands`
+      `✅ Successfully registered ${(responseData as any[]).length} global commands`,
     );
     console.log(
-      "⏳ Note: Global commands may take up to an hour to appear in all servers"
+      "⏳ Note: Global commands may take up to an hour to appear in all servers",
     );
   }
 } catch (error) {

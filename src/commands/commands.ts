@@ -2,7 +2,11 @@
  * Discord Slash Commands
  */
 
-import { APIApplicationCommandOptionChoice, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
+import {
+  APIApplicationCommandOptionChoice,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+} from "discord.js";
 import { BibleService, BibleVerse } from "../services/bible.ts";
 
 export interface CommandHandler {
@@ -95,18 +99,19 @@ export function createCommandHandlers(bibleService: BibleService): CommandHandle
 
         if (!parsed) {
           return {
-            content: "❌ Invalid Bible reference. Please use format: `Book Chapter:Verse` (e.g., `John 3:16` or `Psalm 23:1-6`)",
+            content:
+              "❌ Invalid Bible reference. Please use format: `Book Chapter:Verse` (e.g., `John 3:16` or `Psalm 23:1-6`)",
           };
         }
 
         try {
-          console.log(`[Command] /verse ${args.reference} ${args.version || 'KJV'}`);
+          console.log(`[Command] /verse ${args.reference} ${args.version || "KJV"}`);
           const verses = await bibleService.getVerses(
             parsed.book,
             parsed.chapter,
             parsed.verseStart,
             parsed.verseEnd,
-            args.version
+            args.version,
           );
 
           if (verses.length === 0) {
@@ -131,7 +136,11 @@ export function createCommandHandlers(bibleService: BibleService): CommandHandle
           const embed = bibleService.createVerseEmbed([verse], "Verse of the Day");
           return { embeds: [embed] };
         } catch (error) {
-          return { content: `❌ Error fetching verse of the day: ${error instanceof Error ? error.message : "Unknown error"}` };
+          return {
+            content: `❌ Error fetching verse of the day: ${
+              error instanceof Error ? error.message : "Unknown error"
+            }`,
+          };
         }
       },
     },
@@ -222,7 +231,7 @@ export function createCommandHandlers(bibleService: BibleService): CommandHandle
                 randomChapter,
                 randomVerse,
                 undefined,
-                args.version
+                args.version,
               );
 
               if (verses.length > 0) {
@@ -238,7 +247,11 @@ export function createCommandHandlers(bibleService: BibleService): CommandHandle
 
           return { content: "❌ Could not generate a random verse. Please try again." };
         } catch (error) {
-          return { content: `❌ Error: ${error instanceof Error ? error.message : "Unknown error occurred"}` };
+          return {
+            content: `❌ Error: ${
+              error instanceof Error ? error.message : "Unknown error occurred"
+            }`,
+          };
         }
       },
     },
@@ -259,7 +272,7 @@ export function createCommandHandlers(bibleService: BibleService): CommandHandle
               name: "Original Languages & Latin (bolls.life)",
               value: "VULG, WLC, LXX, SBLGNT, BYZ, MT, TR",
               inline: false,
-            }
+            },
           )
           .setFooter({ text: "Use /verse with the version parameter to specify a translation" });
 
@@ -298,7 +311,7 @@ export function createCommandHandlers(bibleService: BibleService): CommandHandle
               name: "Available Versions",
               value: "KJV, WEB, BBE, DRB, WMB, WMBBE, VULG, WLC, LXX, SBLGNT, BYZ, MT, TR",
               inline: false,
-            }
+            },
           )
           .setFooter({ text: "Scripture from your Discord client to your heart ❤️" });
 

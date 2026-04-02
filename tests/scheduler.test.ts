@@ -15,7 +15,7 @@ Deno.test("DailyVerseScheduler - constructor", () => {
     bibleService,
     "0 8 * * *",
     "America/New_York",
-    sendToChannel
+    sendToChannel,
   );
 
   assertExists(scheduler);
@@ -29,7 +29,7 @@ Deno.test("DailyVerseScheduler - addChannel", () => {
     bibleService,
     "0 8 * * *",
     "America/New_York",
-    sendToChannel
+    sendToChannel,
   );
 
   scheduler.addChannel("123456789", "987654321");
@@ -46,7 +46,7 @@ Deno.test("DailyVerseScheduler - addChannel - duplicate prevention", () => {
     bibleService,
     "0 8 * * *",
     "America/New_York",
-    sendToChannel
+    sendToChannel,
   );
 
   scheduler.addChannel("123", "456");
@@ -63,7 +63,7 @@ Deno.test("DailyVerseScheduler - removeChannel", () => {
     bibleService,
     "0 8 * * *",
     "America/New_York",
-    sendToChannel
+    sendToChannel,
   );
 
   scheduler.addChannel("123", "456");
@@ -80,7 +80,7 @@ Deno.test("DailyVerseScheduler - start and stop", () => {
     bibleService,
     "0 8 * * *",
     "America/New_York",
-    sendToChannel
+    sendToChannel,
   );
 
   scheduler.start();
@@ -105,7 +105,7 @@ Deno.test("DailyVerseScheduler - triggerNow", async () => {
     bibleService,
     "0 8 * * *",
     "America/New_York",
-    sendToChannel
+    sendToChannel,
   );
 
   scheduler.addChannel("test-channel", "test-guild");
@@ -125,7 +125,7 @@ Deno.test("DailyVerseScheduler - getNextRunTime - future time today", () => {
     bibleService,
     "59 23 * * *",
     "America/New_York",
-    sendToChannel
+    sendToChannel,
   );
 
   // This test verifies the method exists and doesn't throw
@@ -144,7 +144,7 @@ Deno.test("DailyVerseScheduler - sendToChannel error handling", async () => {
     bibleService,
     "0 8 * * *",
     "America/New_York",
-    sendToChannel
+    sendToChannel,
   );
 
   scheduler.addChannel("invalid-channel", "test-guild");

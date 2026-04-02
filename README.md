@@ -1,6 +1,7 @@
 # 📖 PrimaScriptura
 
-A Discord Bible bot built with **Deno** - delivers scripture directly from your Discord client to your heart. An alternative to [BibleBot](https://github.com/BibleBot/BibleBot).
+A Discord Bible bot built with **Deno** - delivers scripture directly from your Discord client to
+your heart. An alternative to [BibleBot](https://github.com/BibleBot/BibleBot).
 
 ![Deno](https://img.shields.io/badge/Deno-1.x-black?logo=deno)
 ![Discord](https://img.shields.io/badge/Discord-Bot-5865F2?logo=discord)
@@ -72,11 +73,13 @@ cd primascriptura
 ### 3. Set environment variables
 
 **Required:**
+
 ```bash
 export PRIMASCRIPTURA_DISCORD_TOKEN=your_bot_token_here
 ```
 
 **Optional:**
+
 ```bash
 export PRIMASCRIPTURA_CLIENT_ID=your_client_id_here        # Auto-fetched if not provided
 export PRIMASCRIPTURA_GUILD_ID=your_guild_id_here          # For faster command testing
@@ -86,6 +89,7 @@ export TIMEZONE=America/New_York
 ```
 
 Or run with inline variables:
+
 ```bash
 PRIMASCRIPTURA_DISCORD_TOKEN=xxx PRIMASCRIPTURA_CLIENT_ID=xxx deno task start
 ```
@@ -98,21 +102,23 @@ deno task start
 
 Slash commands are automatically registered on startup.
 
-**Tip:** For instant command registration during development, set `PRIMASCRIPTURA_GUILD_ID` to your test server ID. Without it, global commands can take up to 1 hour to appear.
+**Tip:** For instant command registration during development, set `PRIMASCRIPTURA_GUILD_ID` to your
+test server ID. Without it, global commands can take up to 1 hour to appear.
 
 ## 📝 Commands
 
-| Command | Description | Example |
-|---------|-------------|---------|
-| `/verse <reference> [version]` | Get a specific Bible verse | `/verse John 3:16 ESV` |
-| `/daily` | Get the verse of the day | `/daily` |
-| `/random [version]` | Get a random Bible verse | `/random KJV` |
-| `/versions` | List available Bible versions | `/versions` |
-| `/help` | Show help information | `/help` |
+| Command                        | Description                   | Example                |
+| ------------------------------ | ----------------------------- | ---------------------- |
+| `/verse <reference> [version]` | Get a specific Bible verse    | `/verse John 3:16 ESV` |
+| `/daily`                       | Get the verse of the day      | `/daily`               |
+| `/random [version]`            | Get a random Bible verse      | `/random KJV`          |
+| `/versions`                    | List available Bible versions | `/versions`            |
+| `/help`                        | Show help information         | `/help`                |
 
 ### Verse Reference Formats
 
 Supported formats:
+
 - `John 3:16` - Single verse
 - `Psalm 23:1-6` - Verse range
 - `1 John 1:9` - Books with numbers
@@ -122,18 +128,19 @@ Supported formats:
 
 ### Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `PRIMASCRIPTURA_DISCORD_TOKEN` | ✅ | - | Your Discord bot token |
-| `PRIMASCRIPTURA_CLIENT_ID` | ❌ | Auto-fetched | Your application's client ID |
-| `PRIMASCRIPTURA_GUILD_ID` | ❌ | - | Guild ID for testing (commands appear instantly) |
-| `DAILY_VERSE_SCHEDULE` | ❌ | `0 8 * * *` | Cron-like schedule for daily verses |
-| `DEFAULT_VERSION` | ❌ | `ESV` | Default Bible version |
-| `TIMEZONE` | ❌ | `America/New_York` | Timezone for daily verse schedule |
+| Variable                       | Required | Default            | Description                                      |
+| ------------------------------ | -------- | ------------------ | ------------------------------------------------ |
+| `PRIMASCRIPTURA_DISCORD_TOKEN` | ✅       | -                  | Your Discord bot token                           |
+| `PRIMASCRIPTURA_CLIENT_ID`     | ❌       | Auto-fetched       | Your application's client ID                     |
+| `PRIMASCRIPTURA_GUILD_ID`      | ❌       | -                  | Guild ID for testing (commands appear instantly) |
+| `DAILY_VERSE_SCHEDULE`         | ❌       | `0 8 * * *`        | Cron-like schedule for daily verses              |
+| `DEFAULT_VERSION`              | ❌       | `ESV`              | Default Bible version                            |
+| `TIMEZONE`                     | ❌       | `America/New_York` | Timezone for daily verse schedule                |
 
 ### Bible Versions
 
 **Modern English (bible-api.com):**
+
 - **KJV** - King James Version
 - **WEB** - World English Bible
 - **BBE** - Bible in Basic English
@@ -142,6 +149,7 @@ Supported formats:
 - **WMBBE** - World Messianic Bible (British Edition)
 
 **Original Languages & Latin (bolls.life):**
+
 - **VULG** - Latin Vulgate
 - **WLC** - Hebrew (Westminster Leningrad Codex)
 - **LXX** - Greek Septuagint (Old Testament)
@@ -186,11 +194,13 @@ deno task test     # Run test suite
 
 ## 📡 API
 
-This bot uses [bible-api.com](https://bible-api.com/) - a free, no-authentication-required Bible API.
+This bot uses [bible-api.com](https://bible-api.com/) - a free, no-authentication-required Bible
+API.
 
 ## 🔐 Permissions
 
 The bot requires these Discord permissions:
+
 - Send Messages
 - Use Slash Commands
 - Embed Links (for better formatting)
@@ -225,20 +235,23 @@ MIT License - see LICENSE file for details
 ## 🐛 Troubleshooting
 
 **Commands not appearing?**
+
 - Run `deno task deploy`
 - Check bot permissions in your server
 - If using global commands, wait up to 1 hour
 
 **Bot not responding?**
+
 - Check console for error messages
 - Verify `PRIMASCRIPTURA_DISCORD_TOKEN` is correct
 - Ensure bot has permission to send messages in the channel
 
 **Daily verses not sending?**
+
 - Check the schedule format (cron-like: `minute hour * * *`)
 - Verify timezone is correct
 - Check console logs for scheduler output
 
 ---
 
-*Scripture from your Discord client to your heart* ❤️
+_Scripture from your Discord client to your heart_ ❤️
