@@ -263,14 +263,23 @@ export class BibleService {
 
     const apiVersion = data.translation_id?.toUpperCase() || v;
 
-    return data.verses.map((verse: any) => ({
-      book: verse.book_name,
-      chapter: verse.chapter,
-      verse: verse.verse,
-      text: this.cleanText(verse.text),
-      version: apiVersion,
-      reference: `${verse.book_name} ${verse.chapter}:${verse.verse}`,
-    }));
+    try {
+      return data.verses.map((verse: any) => ({
+        book: verse.book_name,
+        chapter: verse.chapter,
+        verse: verse.verse,
+        text: this.cleanText(verse.text),
+        version: apiVersion,
+        reference: `${verse.book_name} ${verse.chapter}:${verse.verse}`,
+      }));
+    } catch (error) {
+      console.error(
+        `[BibleAPI] Error processing verses:`,
+        error instanceof Error ? error.message : error,
+      );
+      console.error(`[BibleAPI] Problematic data:`, JSON.stringify(data).slice(0, 1000));
+      throw error;
+    }
   }
 
   /**
@@ -353,6 +362,7 @@ export class BibleService {
    * Clean HTML tags and normalize whitespace from verse text
    */
   private cleanText(text: string): string {
+    if (!text) return "";
     return text
       .replace(/<[^>]*>/g, "") // Remove HTML tags
       .replace(/[\n\r]+/g, " ") // Replace newlines with spaces
