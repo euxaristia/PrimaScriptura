@@ -173,13 +173,19 @@ client.on("interactionCreate", async (interaction) => {
 
 // Event: Guild member add - kick accounts less than 2 days old
 client.on("guildMemberAdd", async (member) => {
+  // Skip bots and applications - they are trusted accounts
+  if (member.user.bot) {
+    console.log(`🤖 Bot joined: ${member.user.username} in guild ${member.guild.id}`);
+    return;
+  }
+
   const accountCreatedAt = member.user.createdTimestamp;
   const now = Date.now();
   const accountAge = now - accountCreatedAt;
 
   if (accountAge < MIN_ACCOUNT_AGE) {
     const accountAgeHours = Math.floor(accountAge / 1000 / 60 / 60);
-    
+
     console.log(
       `🛡️ Auto-kick: ${member.user.username}#${member.user.discriminator} ` +
       `(${member.user.id}) - Account only ${accountAgeHours}h old`
@@ -196,7 +202,7 @@ client.on("guildMemberAdd", async (member) => {
 
       // Kick the member
       await member.kick("Account less than 2 days old - anti-raid measure");
-      
+
       // Log to console
       console.log(`✅ Successfully kicked ${member.user.username} from ${member.guild.name}`);
     } catch (error) {
