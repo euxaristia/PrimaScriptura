@@ -171,8 +171,73 @@ Deno.test("BibleService - formatVerses - multiple verses", () => {
 Deno.test("BibleService - formatVerses - empty array", () => {
   const service = new BibleService();
   const result = service.formatVerses([]);
-  
+
   assertEquals(result, "");
+});
+
+Deno.test("BibleService - formatVerses - truncates long passages", () => {
+  const service = new BibleService();
+  // Create a very long passage that exceeds 2000 characters
+  const longText = "This is a very long verse. ".repeat(100);
+  const verses = [{
+    book: "John",
+    chapter: 3,
+    verse: 16,
+    text: longText,
+    version: "VULG",
+    reference: "John 3:16",
+  }];
+
+  const result = service.formatVerses(verses);
+
+  // Should be truncated to under 2000 characters
+  assertEquals(result.length <= 2000, true);
+  // Should include truncation notice
+  assertEquals(result.includes("truncated"), true);
+  // Should still have the reference
+  assertEquals(result.includes("John 3:16"), true);
+  // Should still have the version
+  assertEquals(result.includes("VULG"), true);
+});
+
+Deno.test("BibleService - formatVerses - custom max length", () => {
+  const service = new BibleService();
+  const longText = "This is a long verse. ".repeat(50);
+  const verses = [{
+    book: "Romans",
+    chapter: 8,
+    verse: 28,
+    text: longText,
+    version: "KJV",
+    reference: "Romans 8:28",
+  }];
+
+  const result = service.formatVerses(verses, 500);
+
+  // Should be truncated to under 500 characters
+  assertEquals(result.length <= 500, true);
+  // Should include truncation notice
+  assertEquals(result.includes("truncated"), true);
+});
+
+Deno.test("BibleService - formatVerses - does not truncate short passages", () => {
+  const service = new BibleService();
+  const shortText = "For God so loved the world.";
+  const verses = [{
+    book: "John",
+    chapter: 3,
+    verse: 16,
+    text: shortText,
+    version: "KJV",
+    reference: "John 3:16",
+  }];
+
+  const result = service.formatVerses(verses);
+
+  // Should not include truncation notice
+  assertEquals(result.includes("truncated"), false);
+  // Should have the full text
+  assertEquals(result.includes(shortText), true);
 });
 
 Deno.test("BibleService - getVersions - returns array", async () => {

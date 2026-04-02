@@ -295,15 +295,33 @@ export class BibleService {
 
   /**
    * Format verses into a display string
+   * Discord has a 2000 character limit, so we truncate if needed
    */
-  formatVerses(verses: BibleVerse[]): string {
+  formatVerses(verses: BibleVerse[], maxCharacters: number = 2000): string {
     if (verses.length === 0) return "";
 
     const version = verses[0].version;
-    const text = verses.map(v => v.text).join(" ");
     const reference = this.formatReference(verses);
-
-    return `📖 ${text}\n\n*${reference} (${version})*`;
+    const fullText = verses.map(v => v.text).join(" ");
+    
+    // Build the full message to check length
+    const fullMessage = `📖 ${fullText}\n\n*${reference} (${version})*`;
+    
+    // If within limit, return as-is
+    if (fullMessage.length <= maxCharacters) {
+      return fullMessage;
+    }
+    
+    // Truncate and add ellipsis with note
+    const header = `📖 `;
+    const footer = `\n\n*${reference} (${version})*`;
+    const note = "\n\n*(Passage truncated due to Discord's 2000 character limit)*";
+    const reservedLength = header.length + footer.length + note.length + 3; // +3 for "..."
+    
+    const maxTextLength = maxCharacters - reservedLength;
+    const truncatedText = fullText.slice(0, maxTextLength).trim() + "...";
+    
+    return header + truncatedText + footer + note;
   }
 
   /**
