@@ -244,11 +244,21 @@ export class BibleService {
     }
 
     const data: any = await response.json();
-    console.log(`[BibleAPI] Response:`, JSON.stringify(data).slice(0, 200));
+    console.log(`[BibleAPI] Response:`, JSON.stringify(data).slice(0, 500));
 
     if (data.error) {
       console.error(`[BibleAPI] API error:`, data.error);
       throw new Error(data.error);
+    }
+
+    if (data.errors && data.errors.length > 0) {
+      console.error(`[BibleAPI] API errors:`, data.errors);
+      throw new Error(data.errors.join(", "));
+    }
+
+    if (!data.verses || !Array.isArray(data.verses)) {
+      console.error(`[BibleAPI] Invalid response structure:`, data);
+      throw new Error("Invalid API response: verses array missing");
     }
 
     const apiVersion = data.translation_id?.toUpperCase() || v;
