@@ -478,7 +478,7 @@ export class BibleService {
 
     const version = verses[0].version;
     const reference = this.formatReference(verses);
-    const fullText = verses.map((v) => v.text).join(" ");
+    let fullText = verses.map((v) => v.text).join(" ");
 
     // Version display names
     const versionNames: Record<string, string> = {
@@ -500,21 +500,27 @@ export class BibleService {
     const versionDisplayName = versionNames[version] || version;
     const embedTitle = title ? `${title}` : `${reference}`;
 
+    // Discord embed description limit is 4096 characters
+    const MAX_DESCRIPTION_LENGTH = 4096;
+    const footerText = `${reference} - ${versionDisplayName}`;
+    let wasTruncated = false;
+
+    // Check if we need to truncate
+    if (fullText.length > MAX_DESCRIPTION_LENGTH - 100) {
+      // Reserve space for footer notice
+      fullText = fullText.slice(0, MAX_DESCRIPTION_LENGTH - 100).trim() + "...";
+      wasTruncated = true;
+    }
+
     const embed = new EmbedBuilder()
       .setColor(0x5865F2)
       .setTitle(embedTitle)
       .setDescription(fullText)
-      .setFooter({ text: `${reference} - ${versionDisplayName}` });
-
-    // Add truncation notice if needed
-    const fullMessage = fullText.length + reference.length + versionDisplayName.length + 50;
-    if (fullMessage > 2000) {
-      const truncatedText = fullText.slice(0, 1900).trim() + "...";
-      embed.setDescription(truncatedText);
-      embed.setFooter({
-        text: `${reference} - ${versionDisplayName} (Passage truncated due to Discord's limit)`,
+      .setFooter({
+        text: wasTruncated
+          ? `${footerText} (Chapter truncated due to Discord's limit)`
+          : footerText,
       });
-    }
 
     return embed;
   }
