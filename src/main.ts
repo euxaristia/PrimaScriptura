@@ -114,7 +114,7 @@ const scheduler = new DailyVerseScheduler(
   sendToChannel
 );
 
-console.log("📖 Citator starting up...");
+console.log("📖 PrimaScriptura starting up...");
 console.log(`   Default Version: ${DEFAULT_VERSION}`);
 console.log(`   Daily Verse Schedule: ${DAILY_VERSE_SCHEDULE} (${TIMEZONE})`);
 

@@ -272,7 +272,7 @@ export function createCommandHandlers(bibleService: BibleService): CommandHandle
       execute: async () => {
         const embed = new EmbedBuilder()
           .setColor(0x5865F2)
-          .setTitle("📖 Citator Help")
+          .setTitle("📖 PrimaScriptura Help")
           .addFields(
             {
               name: "/verse <reference> [version]",
