@@ -20,12 +20,65 @@ const CHAPTER_PATTERN =
 // Books that contain "of" in their name
 const BOOKS_WITH_OF = ["song of solomon", "song of songs"];
 
+// Version keyword patterns for detecting Bible version from message
+// Maps common user-friendly terms to actual version codes
+const VERSION_KEYWORDS: Record<string, string> = {
+  // Greek New Testament versions
+  "greek nt": "SBLGNT",
+  "greek new testament": "SBLGNT",
+  "sblgnt": "SBLGNT",
+  "sbl": "SBLGNT",
+  "byz": "BYZ",
+  "byzantine": "BYZ",
+  "byzantine textform": "BYZ",
+  "textus receptus": "TR",
+  "tr": "TR",
+  "greek": "SBLGNT", // Default Greek
+
+  // Hebrew/Old Testament versions
+  "hebrew": "MT",
+  "hebrew ot": "MT",
+  "old testament hebrew": "MT",
+  "masoretic": "MT",
+  "masoretic text": "MT",
+  "wlc": "WLC",
+  "westminster": "WLC",
+
+  // Latin versions
+  "latin": "VULG",
+  "vulgate": "VULG",
+  "latin vulgate": "VULG",
+
+  // English versions (common ones)
+  "kjv": "KJV",
+  "king james": "KJV",
+  "king james version": "KJV",
+  "web": "WEB",
+  "world english": "WEB",
+  "bbe": "BBE",
+  "basic english": "BBE",
+  "drb": "DRB",
+  "douay rheims": "DRB",
+  "wmb": "WMB",
+  "wmbbe": "WMBBE",
+
+  // Septuagint
+  "lxx": "LXX",
+  "septuagint": "LXX",
+};
+
+// Pattern to detect version keywords after a reference
+// Matches: "Greek NT", "KJV", "Latin", etc. at the end or after whitespace
+// Uses word boundaries to avoid partial matches
+const VERSION_PATTERN = /(?:^|[\s\n,;])(greek\s+nt|greek\s+new\s+testament|sblgnt|sbl|byzantine\s+textform|byzantine|textus\s+receptus|old\s+testament\s+hebrew|hebrew\s+ot|masoretic\s+text|world\s+english|king\s+james\s+version|bible\s+in\s+basic\s+english|douay\s+rheims|wmb\s+british\s+edition|septuagint|latin\s+vulgate|vulgate|westminster|basic\s+english|world\s+english|king\s+james|hebrew|latin|greek|byz|tr|mt|wlc|lxx|kjv|web|bbe|drb|wmb|wmbbe)(?=[\s\n\)\],\.]|$)/i;
+
 export interface DetectedReference {
   book: string;
   chapter: number;
   verseStart?: number;
   verseEnd?: number;
   originalMatch: string;
+  version?: string; // Detected version from message
 }
 
 export class MessageHandler {
@@ -35,6 +88,22 @@ export class MessageHandler {
   constructor(bibleService: BibleService, defaultVersion: string = "KJV") {
     this.bibleService = bibleService;
     this.defaultVersion = defaultVersion;
+  }
+
+  /**
+   * Detect Bible version from message content
+   * Returns the version code or undefined if not found
+   */
+  detectVersion(content: string): string | undefined {
+    const lowerContent = content.toLowerCase();
+    const versionMatch = lowerContent.match(VERSION_PATTERN);
+
+    if (versionMatch) {
+      const keyword = versionMatch[1].trim().toLowerCase();
+      return VERSION_KEYWORDS[keyword];
+    }
+
+    return undefined;
   }
 
   /**
@@ -282,6 +351,9 @@ export class MessageHandler {
       return false;
     }
 
+    // Detect version from message content
+    const detectedVersion = this.detectVersion(content);
+
     // For now, only respond to the first reference to avoid spam
     const ref = references[0];
 
@@ -291,7 +363,7 @@ export class MessageHandler {
         ref.chapter,
         ref.verseStart,
         ref.verseEnd,
-        this.defaultVersion,
+        detectedVersion || this.defaultVersion,
       );
 
       if (verses.length === 0) {

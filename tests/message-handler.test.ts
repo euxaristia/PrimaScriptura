@@ -335,3 +335,148 @@ Deno.test("MessageHandler - detectChapterReferences - 2 Samuel 7", () => {
   assertEquals(refs[0].chapter, 7);
   assertEquals(refs[0].verseStart, undefined);
 });
+
+// Version detection tests
+Deno.test("MessageHandler - detectVersion - Greek NT", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 1 Greek NT");
+  assertEquals(version, "SBLGNT");
+});
+
+Deno.test("MessageHandler - detectVersion - Greek", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 3:16 Greek");
+  assertEquals(version, "SBLGNT");
+});
+
+Deno.test("MessageHandler - detectVersion - Latin", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 1:1 Latin");
+  assertEquals(version, "VULG");
+});
+
+Deno.test("MessageHandler - detectVersion - KJV", () => {
+  const bibleService = new BibleService("WEB");
+  const handler = new MessageHandler(bibleService, "WEB");
+
+  const version = handler.detectVersion("John 3:16 KJV");
+  assertEquals(version, "KJV");
+});
+
+Deno.test("MessageHandler - detectVersion - SBLGNT explicit", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 1 SBLGNT");
+  assertEquals(version, "SBLGNT");
+});
+
+Deno.test("MessageHandler - detectVersion - Byzantine", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 1 Byzantine");
+  assertEquals(version, "BYZ");
+});
+
+Deno.test("MessageHandler - detectVersion - Textus Receptus", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 1 Textus Receptus");
+  assertEquals(version, "TR");
+});
+
+Deno.test("MessageHandler - detectVersion - Hebrew", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("Genesis 1:1 Hebrew");
+  assertEquals(version, "MT");
+});
+
+Deno.test("MessageHandler - detectVersion - Vulgate", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 1:1 Vulgate");
+  assertEquals(version, "VULG");
+});
+
+Deno.test("MessageHandler - detectVersion - LXX", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("Genesis 1 LXX");
+  assertEquals(version, "LXX");
+});
+
+Deno.test("MessageHandler - detectVersion - Septuagint", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("Genesis 1 Septuagint");
+  assertEquals(version, "LXX");
+});
+
+Deno.test("MessageHandler - detectVersion - no version specified", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 3:16");
+  assertEquals(version, undefined);
+});
+
+Deno.test("MessageHandler - detectVersion - King James Version", () => {
+  const bibleService = new BibleService("WEB");
+  const handler = new MessageHandler(bibleService, "WEB");
+
+  const version = handler.detectVersion("John 3:16 King James Version");
+  assertEquals(version, "KJV");
+});
+
+Deno.test("MessageHandler - detectVersion - WLC", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("Genesis 1:1 WLC");
+  assertEquals(version, "WLC");
+});
+
+Deno.test("MessageHandler - detectVersion - Masoretic Text", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("Genesis 1:1 Masoretic Text");
+  assertEquals(version, "MT");
+});
+
+Deno.test("MessageHandler - detectVersion - case insensitive", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 1 greek nt");
+  assertEquals(version, "SBLGNT");
+});
+
+Deno.test("MessageHandler - detectVersion - with verse reference", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("Check out John 3:16 Greek NT for inspiration");
+  assertEquals(version, "SBLGNT");
+});
+
+Deno.test("MessageHandler - detectVersion - chapter reference", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("Read John 1 Greek NT");
+  assertEquals(version, "SBLGNT");
+});
