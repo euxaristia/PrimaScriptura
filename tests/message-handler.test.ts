@@ -729,3 +729,19 @@ Deno.test("MessageHandler - detectVersion - New International Version", () => {
   const version = handler.detectVersion("John 3:16 New International Version");
   assertEquals(version, "NIV");
 });
+
+Deno.test("MessageHandler - detectVersion - CSB", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 3:16 CSB");
+  assertEquals(version, "CSB");
+});
+
+Deno.test("MessageHandler - detectVersion - Christian Standard Bible", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const version = handler.detectVersion("John 3:16 Christian Standard Bible");
+  assertEquals(version, "CSB");
+});
