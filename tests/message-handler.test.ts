@@ -601,3 +601,99 @@ Deno.test("MessageHandler - detectChapterReferences - 2 Cor 5", () => {
   assertEquals(refs[0].chapter, 5);
   assertEquals(refs[0].verseStart, undefined);
 });
+
+Deno.test("MessageHandler - detectVerseReferences - Matt 5:44", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Matt 5:44 says love your enemies.");
+
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "matthew");
+  assertEquals(refs[0].chapter, 5);
+  assertEquals(refs[0].verseStart, 44);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Gen 1:1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Gen 1:1 is the first verse.");
+
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "genesis");
+  assertEquals(refs[0].chapter, 1);
+  assertEquals(refs[0].verseStart, 1);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Rom 8:28", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Rom 8:28 is encouraging.");
+
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "romans");
+  assertEquals(refs[0].chapter, 8);
+  assertEquals(refs[0].verseStart, 28);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Rev 22:21", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Rev 22:21 is the last verse.");
+
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "revelation");
+  assertEquals(refs[0].chapter, 22);
+  assertEquals(refs[0].verseStart, 21);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Ps 23:1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Ps 23:1 is well known.");
+
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "psalms");
+  assertEquals(refs[0].chapter, 23);
+  assertEquals(refs[0].verseStart, 1);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Phil 4:13", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Phil 4:13 is popular.");
+
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "philippians");
+  assertEquals(refs[0].chapter, 4);
+  assertEquals(refs[0].verseStart, 13);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Heb 11:1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Heb 11:1 defines faith.");
+
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "hebrews");
+  assertEquals(refs[0].chapter, 11);
+  assertEquals(refs[0].verseStart, 1);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Isa 53:5", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Isa 53:5 prophesies about Jesus.");
+
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "isaiah");
+  assertEquals(refs[0].chapter, 53);
+  assertEquals(refs[0].verseStart, 5);
+});

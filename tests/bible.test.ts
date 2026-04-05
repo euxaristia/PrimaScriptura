@@ -10,7 +10,7 @@ Deno.test("BibleService - parseReference - single verse", () => {
   const result = service.parseReference("John 3:16");
 
   assertEquals(result, {
-    book: "John",
+    book: "john",
     chapter: 3,
     verseStart: 16,
     verseEnd: undefined,
@@ -450,4 +450,84 @@ Deno.test("BibleService - parseReference - chapter only abbreviated", () => {
   assertEquals(result.book, "1 corinthians");
   assertEquals(result.chapter, 13);
   assertEquals(result.verseStart, undefined);
+});
+
+Deno.test("BibleService - parseReference - abbreviated Matt", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Matt 5:44");
+
+  assertExists(result);
+  assertEquals(result.book, "matthew");
+  assertEquals(result.chapter, 5);
+  assertEquals(result.verseStart, 44);
+});
+
+Deno.test("BibleService - parseReference - abbreviated Gen", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Gen 1:1");
+
+  assertExists(result);
+  assertEquals(result.book, "genesis");
+  assertEquals(result.chapter, 1);
+  assertEquals(result.verseStart, 1);
+});
+
+Deno.test("BibleService - parseReference - abbreviated Rom", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Rom 8:28");
+
+  assertExists(result);
+  assertEquals(result.book, "romans");
+  assertEquals(result.chapter, 8);
+  assertEquals(result.verseStart, 28);
+});
+
+Deno.test("BibleService - parseReference - abbreviated Rev", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Rev 22:21");
+
+  assertExists(result);
+  assertEquals(result.book, "revelation");
+  assertEquals(result.chapter, 22);
+  assertEquals(result.verseStart, 21);
+});
+
+Deno.test("BibleService - parseReference - abbreviated Ps", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Ps 23:1");
+
+  assertExists(result);
+  assertEquals(result.book, "psalms");
+  assertEquals(result.chapter, 23);
+  assertEquals(result.verseStart, 1);
+});
+
+Deno.test("BibleService - parseReference - abbreviated Phil", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Phil 4:13");
+
+  assertExists(result);
+  assertEquals(result.book, "philippians");
+  assertEquals(result.chapter, 4);
+  assertEquals(result.verseStart, 13);
+});
+
+Deno.test("BibleService - parseReference - abbreviated Heb", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Heb 11:1");
+
+  assertExists(result);
+  assertEquals(result.book, "hebrews");
+  assertEquals(result.chapter, 11);
+  assertEquals(result.verseStart, 1);
+});
+
+Deno.test("BibleService - parseReference - abbreviated Isa", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Isa 53:5");
+
+  assertExists(result);
+  assertEquals(result.book, "isaiah");
+  assertEquals(result.chapter, 53);
+  assertEquals(result.verseStart, 5);
 });
