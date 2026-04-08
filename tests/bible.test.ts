@@ -531,3 +531,41 @@ Deno.test("BibleService - parseReference - abbreviated Isa", () => {
   assertEquals(result.chapter, 53);
   assertEquals(result.verseStart, 5);
 });
+
+Deno.test("BibleService - parseReference - Wisdom", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Wisdom 1:1");
+
+  assertExists(result);
+  assertEquals(result.book, "wisdom");
+  assertEquals(result.chapter, 1);
+  assertEquals(result.verseStart, 1);
+});
+
+Deno.test("BibleService - parseReference - Sirach", () => {
+  const service = new BibleService();
+  const result = service.parseReference("Sirach 1:1");
+
+  assertExists(result);
+  assertEquals(result.book, "sirach");
+  assertEquals(result.chapter, 1);
+  assertEquals(result.verseStart, 1);
+});
+
+Deno.test("BibleService - getVerses - Wisdom 1:1 (deuterocanonical)", async () => {
+  const service = new BibleService("KJV");
+  const verses = await service.getVerses("wisdom", 1, 1);
+
+  assertEquals(verses.length, 1);
+  assertEquals(verses[0].verse, 1);
+  assertEquals(verses[0].version, "NRSVCE"); // Falls back to NRSVCE for deuterocanonical
+});
+
+Deno.test("BibleService - getVerses - Wisdom 1:1 with VULG", async () => {
+  const service = new BibleService("KJV");
+  const verses = await service.getVerses("wisdom", 1, 1, undefined, "VULG");
+
+  assertEquals(verses.length, 1);
+  assertEquals(verses[0].verse, 1);
+  assertEquals(verses[0].version, "VULG");
+});

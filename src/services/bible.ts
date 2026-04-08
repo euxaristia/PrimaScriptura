@@ -76,6 +76,15 @@ const bookToCode: Record<string, string> = {
   "3 john": "3JN",
   "jude": "JUD",
   "revelation": "REV",
+
+  // Deuterocanonical books
+  "tobit": "TOB",
+  "judith": "JDT",
+  "wisdom": "WIS",
+  "sirach": "SIR",
+  "baruch": "BAR",
+  "1 maccabees": "1MA",
+  "2 maccabees": "2MA",
 };
 
 // 3-letter code to book ID mapping for bolls.life
@@ -146,10 +155,28 @@ const codeToId: Record<string, number> = {
   "3JN": 64,
   "JUD": 65,
   "REV": 66,
+
+  // Deuterocanonical books
+  "TOB": 68,
+  "JDT": 69,
+  "WIS": 70,
+  "SIR": 71,
+  "BAR": 73,
+  "1MA": 74,
+  "2MA": 75,
 };
 
 // bolls.life ONLY versions (not in bible-api.com)
 const BOLLS_ONLY_VERSIONS = ["VULG", "WLC", "LXX", "SBLGNT", "BYZ", "MT", "TR"];
+
+// Deuterocanonical book codes (only available on bolls.life with certain versions)
+const DEUTEROCANONICAL_CODES = new Set(["TOB", "JDT", "WIS", "SIR", "BAR", "1MA", "2MA"]);
+
+// Versions on bolls.life that include deuterocanonical books
+const DEUTEROCANONICAL_VERSIONS = ["NRSVCE", "RSV2CE", "NABRE", "NJB1985", "CEVD", "CEB", "VULG", "LXX"];
+
+// Default English version for deuterocanonical books when requested version lacks them
+const DEFAULT_DEUTEROCANONICAL_VERSION = "NRSVCE";
 
 // bible-api.com versions
 const BIBLE_API_VERSIONS = ["KJV", "WEB", "BBE", "DRB", "WMB", "WMBBE"];
@@ -307,6 +334,27 @@ const ABBREVIATION_MAP: Record<string, string> = {
   // Prophecy
   "revelation": "revelation",
   "rev": "revelation",
+
+  // Deuterocanonical books
+  "tobit": "tobit",
+  "tob": "tobit",
+  "tobias": "tobit",
+  "judith": "judith",
+  "jdt": "judith",
+  "wisdom": "wisdom",
+  "wisdom of solomon": "wisdom",
+  "wis": "wisdom",
+  "sirach": "sirach",
+  "ecclesiasticus": "sirach",
+  "sir": "sirach",
+  "baruch": "baruch",
+  "bar": "baruch",
+  "1 maccabees": "1 maccabees",
+  "1 macc": "1 maccabees",
+  "1 mac": "1 maccabees",
+  "2 maccabees": "2 maccabees",
+  "2 macc": "2 maccabees",
+  "2 mac": "2 maccabees",
 };
 
 /**
@@ -392,9 +440,19 @@ export class BibleService {
     verseEnd?: number,
     version?: string,
   ): Promise<BibleVerse[]> {
-    const v = version || this.defaultVersion;
-    const api = this.getApiForVersion(v);
+    let v = version || this.defaultVersion;
 
+    // Check if this is a deuterocanonical book
+    const bookCode = bookToCode[book.toLowerCase()];
+    if (bookCode && DEUTEROCANONICAL_CODES.has(bookCode)) {
+      // Deuterocanonical books must use bolls.life with a version that includes them
+      if (!DEUTEROCANONICAL_VERSIONS.includes(v)) {
+        v = DEFAULT_DEUTEROCANONICAL_VERSION;
+      }
+      return this.getVersesFromBolls(book, chapter, verseStart, verseEnd, v);
+    }
+
+    const api = this.getApiForVersion(v);
     if (api === "bolls") {
       return this.getVersesFromBolls(book, chapter, verseStart, verseEnd, v);
     }
@@ -689,6 +747,9 @@ export class BibleService {
       "BYZ": "Byzantine Textform",
       "MT": "Masoretic Text",
       "TR": "Textus Receptus",
+      "NRSVCE": "New Revised Standard Version Catholic Edition",
+      "RSV2CE": "Revised Standard Version 2nd Catholic Edition",
+      "NABRE": "New American Bible Revised Edition",
     };
 
     const versionDisplayName = versionNames[version] || version;

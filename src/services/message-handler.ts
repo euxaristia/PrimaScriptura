@@ -18,7 +18,7 @@ const CHAPTER_PATTERN =
   /(?:^|[\s\n\(\[])((?:1|2|3)\s+)?([A-Za-z]+(?:\s+of\s+[A-Za-z]+)?)(\s+)(\d+)([\s\n\)\],\.]|$)/gi;
 
 // Books that contain "of" in their name
-const BOOKS_WITH_OF = ["song of solomon", "song of songs"];
+const BOOKS_WITH_OF = ["song of solomon", "song of songs", "wisdom of solomon"];
 
 // Abbreviation to full book name mapping
 // This handles common abbreviations and partial matches
@@ -174,6 +174,27 @@ const ABBREVIATION_MAP: Record<string, string> = {
   // Prophecy
   "revelation": "revelation",
   "rev": "revelation",
+
+  // Deuterocanonical books
+  "tobit": "tobit",
+  "tob": "tobit",
+  "tobias": "tobias",
+  "judith": "judith",
+  "jdt": "judith",
+  "wisdom": "wisdom",
+  "wisdom of solomon": "wisdom",
+  "wis": "wisdom",
+  "sirach": "sirach",
+  "ecclesiasticus": "sirach",
+  "sir": "sirach",
+  "baruch": "baruch",
+  "bar": "baruch",
+  "1 maccabees": "1 maccabees",
+  "1 macc": "1 maccabees",
+  "1 mac": "1 maccabees",
+  "2 maccabees": "2 maccabees",
+  "2 macc": "2 maccabees",
+  "2 mac": "2 maccabees",
 };
 
 /**
@@ -575,6 +596,26 @@ export class MessageHandler {
       "1 chron",
       "2 ch",
       "2 chron",
+      // Deuterocanonical books
+      "tobit",
+      "tob",
+      "tobias",
+      "judith",
+      "jdt",
+      "wisdom",
+      "wisdom of solomon",
+      "wis",
+      "sirach",
+      "ecclesiasticus",
+      "sir",
+      "baruch",
+      "bar",
+      "1 maccabees",
+      "1 macc",
+      "1 mac",
+      "2 maccabees",
+      "2 macc",
+      "2 mac",
     ];
     return validBooks.includes(bookName.toLowerCase().trim());
   }

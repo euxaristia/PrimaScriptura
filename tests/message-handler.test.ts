@@ -745,3 +745,80 @@ Deno.test("MessageHandler - detectVersion - Christian Standard Bible", () => {
   const version = handler.detectVersion("John 3:16 Christian Standard Bible");
   assertEquals(version, "CSB");
 });
+
+// Deuterocanonical book detection tests
+Deno.test("MessageHandler - detectVerseReferences - Wisdom 1:1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Wisdom 1:1 is great");
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "wisdom");
+  assertEquals(refs[0].chapter, 1);
+  assertEquals(refs[0].verseStart, 1);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Sirach 1:1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Sirach 1:1");
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "sirach");
+  assertEquals(refs[0].chapter, 1);
+  assertEquals(refs[0].verseStart, 1);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Tobit 1:1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Tobit 1:1");
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "tobit");
+  assertEquals(refs[0].chapter, 1);
+  assertEquals(refs[0].verseStart, 1);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - 1 Maccabees 1:1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("1 Maccabees 1:1");
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "1 maccabees");
+  assertEquals(refs[0].chapter, 1);
+  assertEquals(refs[0].verseStart, 1);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Baruch 1:1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Baruch 1:1");
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "baruch");
+  assertEquals(refs[0].chapter, 1);
+  assertEquals(refs[0].verseStart, 1);
+});
+
+Deno.test("MessageHandler - detectVerseReferences - Judith 1:1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectVerseReferences("Judith 1:1");
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "judith");
+  assertEquals(refs[0].chapter, 1);
+  assertEquals(refs[0].verseStart, 1);
+});
+
+Deno.test("MessageHandler - detectChapterReferences - Wisdom 1", () => {
+  const bibleService = new BibleService("KJV");
+  const handler = new MessageHandler(bibleService, "KJV");
+
+  const refs = handler.detectChapterReferences("Wisdom 1");
+  assertEquals(refs.length, 1);
+  assertEquals(refs[0].book.toLowerCase(), "wisdom");
+  assertEquals(refs[0].chapter, 1);
+});
