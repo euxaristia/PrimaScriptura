@@ -139,7 +139,7 @@ client.on("clientReady", () => {
         description:
           "Scripture from your Discord client to your heart.\n\n" +
           "Invite: https://discord.com/oauth2/authorize?client_id=1489033559896358932\n\n" +
-          "GitHub: https://github.com/euxaristia/primascriptura",
+          "GitHub: https://github.com/euxaristia/PrimaScriptura",
       },
     });
     console.log("   Updated application description");
