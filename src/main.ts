@@ -132,6 +132,21 @@ client.on("clientReady", () => {
   });
   console.log("   Status: Property of euxaristia");
 
+  // Update application description (bot bio)
+  try {
+    await rest.patch("/applications/@me", {
+      body: {
+        description:
+          "Scripture from your Discord client to your heart.\n\n" +
+          "Invite: https://discord.com/oauth2/authorize?client_id=1489033559896358932\n\n" +
+          "GitHub: https://github.com/euxaristia/primascriptura",
+      },
+    });
+    console.log("   Updated application description");
+  } catch (error) {
+    console.error("⚠️ Failed to update application description:", error);
+  }
+
   // Start daily verse scheduler
   scheduler.start();
 });
