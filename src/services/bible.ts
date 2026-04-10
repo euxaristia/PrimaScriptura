@@ -203,6 +203,83 @@ const SPANISH_BOOK_NAMES = new Set([
   "1 macabeos", "2 macabeos",
 ]);
 
+// Reverse mapping: English book name → Latin Vulgate display name
+const ENGLISH_TO_LATIN_BOOK: Record<string, string> = {
+  "genesis": "Genesis",
+  "exodus": "Exodus",
+  "leviticus": "Leviticus",
+  "numbers": "Numeri",
+  "deuteronomy": "Deuteronomium",
+  "joshua": "Iosue",
+  "judges": "Iudicum",
+  "ruth": "Ruth",
+  "1 samuel": "I Regum",
+  "2 samuel": "II Regum",
+  "1 kings": "III Regum",
+  "2 kings": "IV Regum",
+  "1 chronicles": "I Paralipomenon",
+  "2 chronicles": "II Paralipomenon",
+  "ezra": "Esdrae",
+  "nehemiah": "Nehemiae",
+  "esther": "Esther",
+  "job": "Iob",
+  "psalms": "Psalmi",
+  "proverbs": "Proverbia",
+  "ecclesiastes": "Ecclesiastes",
+  "song of solomon": "Canticum Canticorum",
+  "isaiah": "Isaias",
+  "jeremiah": "Ieremias",
+  "lamentations": "Threni",
+  "ezekiel": "Ezechiel",
+  "daniel": "Daniel",
+  "hosea": "Osee",
+  "joel": "Ioel",
+  "amos": "Amos",
+  "obadiah": "Abdias",
+  "jonah": "Ionas",
+  "micah": "Michaeas",
+  "nahum": "Nahum",
+  "habakkuk": "Habacuc",
+  "zephaniah": "Sophonias",
+  "haggai": "Aggaeus",
+  "zechariah": "Zacharias",
+  "malachi": "Malachias",
+  "matthew": "Matthaeus",
+  "mark": "Marcus",
+  "luke": "Lucas",
+  "john": "Ioannes",
+  "acts": "Actus Apostolorum",
+  "romans": "Ad Romanos",
+  "1 corinthians": "Ad Corinthios I",
+  "2 corinthians": "Ad Corinthios II",
+  "galatians": "Ad Galatas",
+  "ephesians": "Ad Ephesios",
+  "philippians": "Ad Philippenses",
+  "colossians": "Ad Colossenses",
+  "1 thessalonians": "Ad Thessalonicenses I",
+  "2 thessalonians": "Ad Thessalonicenses II",
+  "1 timothy": "Ad Timotheum I",
+  "2 timothy": "Ad Timotheum II",
+  "titus": "Ad Titum",
+  "philemon": "Ad Philemonem",
+  "hebrews": "Ad Hebraeos",
+  "james": "Iacobi",
+  "1 peter": "Petri I",
+  "2 peter": "Petri II",
+  "1 john": "Ioannis I",
+  "2 john": "Ioannis II",
+  "3 john": "Ioannis III",
+  "jude": "Iudae",
+  "revelation": "Apocalypsis",
+  "tobit": "Tobias",
+  "judith": "Iudith",
+  "wisdom": "Sapientia",
+  "sirach": "Ecclesiasticus",
+  "baruch": "Baruch",
+  "1 maccabees": "I Machabaeorum",
+  "2 maccabees": "II Machabaeorum",
+};
+
 // Reverse mapping: English book name → Spanish display name
 const ENGLISH_TO_SPANISH_BOOK: Record<string, string> = {
   "genesis": "Génesis",
@@ -1004,6 +1081,9 @@ export class BibleService {
   private getBookDisplayName(book: string, version: string): string {
     if (SPANISH_VERSIONS.includes(version)) {
       return ENGLISH_TO_SPANISH_BOOK[book.toLowerCase()] || book;
+    }
+    if (version === "VULG") {
+      return ENGLISH_TO_LATIN_BOOK[book.toLowerCase()] || book;
     }
     // Title-case for English versions
     return book.split(" ").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");

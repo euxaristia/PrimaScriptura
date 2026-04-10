@@ -185,7 +185,7 @@ Deno.test("BibleService - formatVerses - truncates long passages", () => {
     verse: 16,
     text: longText,
     version: "VULG",
-    reference: "John 3:16",
+    reference: "Ioannes 3:16",
   }];
 
   const result = service.formatVerses(verses);
@@ -194,8 +194,8 @@ Deno.test("BibleService - formatVerses - truncates long passages", () => {
   assertEquals(result.length <= 2000, true);
   // Should include truncation notice
   assertEquals(result.includes("truncated"), true);
-  // Should still have the reference
-  assertEquals(result.includes("John 3:16"), true);
+  // Should still have the reference (Latin book name for VULG)
+  assertEquals(result.includes("Ioannes 3:16"), true);
   // Should still have the version
   assertEquals(result.includes("VULG"), true);
 });
@@ -295,13 +295,13 @@ Deno.test("BibleService - createVerseEmbed - Latin Vulgate version", () => {
     verse: 16,
     text: "Sic enim Deus dilexit mundum",
     version: "VULG",
-    reference: "John 3:16",
+    reference: "Ioannes 3:16",
   }];
 
   const embed = service.createVerseEmbed(verses);
   const json = embed.toJSON();
 
-  assertEquals(json.footer?.text, "John 3:16 - Latin Vulgate");
+  assertEquals(json.footer?.text, "Ioannes 3:16 - Latin Vulgate");
 });
 
 Deno.test("BibleService - createVerseEmbed - Greek version", () => {
@@ -592,6 +592,26 @@ Deno.test("BibleService - getVerses - non-Spanish deuterocanonical still falls b
   assertEquals(verses[0].verse, 1);
   // Should have fallen back to NRSVCE since SBLGNT doesn't have deuterocanonical on bolls
   assertEquals(verses[0].version, "NRSVCE");
+});
+
+Deno.test("BibleService - createVerseEmbed - Latin Vulgate uses Latin book name", () => {
+  const service = new BibleService();
+  // When the version is VULG, the embed title/footer should use Latin book names
+  const verses = [{
+    book: "wisdom",
+    chapter: 1,
+    verse: 1,
+    text: "Diligite justitiam, qui judicatis terram.",
+    version: "VULG",
+    reference: "Sapientia 1:1",
+  }];
+
+  const embed = service.createVerseEmbed(verses);
+  const json = embed.toJSON();
+
+  // Title should be "Sapientia 1:1" not "Wisdom 1:1"
+  assertEquals(json.title, "Sapientia 1:1");
+  assertEquals(json.footer?.text, "Sapientia 1:1 - Latin Vulgate");
 });
 
 Deno.test("BibleService - createVerseEmbed - Spanish version uses Spanish book name", () => {
