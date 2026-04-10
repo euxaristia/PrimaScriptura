@@ -654,10 +654,12 @@ export class BibleService {
     if (api === "bolls") {
       const bookCode = bookToCode[book.toLowerCase()];
       if (bookCode && DEUTEROCANONICAL_CODES.has(bookCode) && !DEUTEROCANONICAL_VERSIONS.includes(v)) {
-        // Don't fall back to English NRSVCE for Spanish requests — let it try the Spanish version
-        // or fail gracefully with a "not found" error in the user's language
-        if (!SPANISH_VERSIONS.includes(v)) {
-          // This bolls-only version doesn't have deuterocanonical books, fall back
+        // Spanish versions don't have deuterocanonical books on bolls.life
+        // Fall back to Latin Vulgate (closer to Spanish than English, actual Catholic source)
+        if (SPANISH_VERSIONS.includes(v)) {
+          v = "VULG";
+        } else {
+          // Other non-deuterocanonical versions fall back to English NRSVCE
           v = DEFAULT_DEUTEROCANONICAL_VERSION;
         }
       }
