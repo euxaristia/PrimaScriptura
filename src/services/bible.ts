@@ -459,6 +459,8 @@ const ABBREVIATION_MAP: Record<string, string> = {
   "mark": "mark",
   "luke": "luke",
   "john": "john",
+  "ioannes": "john",
+  "joannes": "john",
 
   // Church History
   "acts": "acts",
