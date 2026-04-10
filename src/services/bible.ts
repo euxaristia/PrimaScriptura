@@ -178,6 +178,31 @@ const DEUTEROCANONICAL_CODES = new Set(["TOB", "JDT", "WIS", "SIR", "BAR", "1MA"
 // Versions on bolls.life that include deuterocanonical books
 const DEUTEROCANONICAL_VERSIONS = ["NRSVCE", "RSV2CE", "NABRE", "NJB1985", "CEVD", "CEB", "VULG", "LXX"];
 
+// Latin book names for auto-detecting language from raw input
+// Excludes books that have the same name in English (genesis, exodus, leviticus, ruth,
+// esther, ecclesiastes, daniel, amos, nahum, baruch) — those default to English.
+const LATIN_BOOK_NAMES = new Set([
+  "numeri", "deuteronomium", "iosue", "iudicum",
+  "i regum", "ii regum", "iii regum", "iv regum",
+  "i paralipomenon", "ii paralipomenon", "esdrae", "nehemiae",
+  "iob", "psalmi", "psalmus", "proverbia",
+  "canticum canticorum", "isaias", "ieremias", "threni", "ezechiel",
+  "osee", "ioel", "abdias", "ionas", "michaeas",
+  "habacuc", "sophonias", "aggaeus", "zacharias", "malachias",
+  "matthaeus", "marcus", "lucas", "ioannes", "joannes", "actus apostolorum",
+  "ad romanos", "ad corinthios i", "ad corinthios ii",
+  "ad galatas", "ad ephesios", "ad philippenses", "ad colossenses",
+  "ad thessalonicenses i", "ad thessalonicenses ii",
+  "ad timotheum i", "ad timotheum ii", "ad titum", "ad philemonem",
+  "ad hebraeos", "iacobi", "petri i", "petri ii",
+  "ioannis i", "ioannis ii", "ioannis iii", "iudae", "apocalypsis",
+  "tobias", "iudith", "sapientia", "ecclesiasticus",
+  "i machabaeorum", "ii machabaeorum",
+]);
+
+// Default Latin version when Latin book names are detected
+const DEFAULT_LATIN_VERSION = "VULG";
+
 // Default English version for deuterocanonical books when requested version lacks them
 const DEFAULT_DEUTEROCANONICAL_VERSION = "NRSVCE";
 
@@ -462,6 +487,65 @@ const ABBREVIATION_MAP: Record<string, string> = {
   "ioannes": "john",
   "joannes": "john",
 
+  // Latin Vulgate book names
+  "numeri": "numbers",
+  "deuteronomium": "deuteronomy",
+  "iosue": "joshua",
+  "iudicum": "judges",
+  "i regum": "1 samuel",
+  "ii regum": "2 samuel",
+  "iii regum": "1 kings",
+  "iv regum": "2 kings",
+  "i paralipomenon": "1 chronicles",
+  "ii paralipomenon": "2 chronicles",
+  "esdrae": "ezra",
+  "nehemiae": "nehemiah",
+  "iob": "job",
+  "psalmi": "psalms",
+  "psalmus": "psalms",
+  "proverbia": "proverbs",
+  "canticum canticorum": "song of solomon",
+  "ieremias": "jeremiah",
+  "threni": "lamentations",
+  "ezechiel": "ezekiel",
+  "osee": "hosea",
+  "ioel": "joel",
+  "ionas": "jonah",
+  "michaeas": "micah",
+  "sophonias": "zephaniah",
+  "aggaeus": "haggai",
+  "zacharias": "zechariah",
+  "malachias": "malachi",
+  "matthaeus": "matthew",
+  "marcus": "mark",
+  "actus apostolorum": "acts",
+  "ad romanos": "romans",
+  "ad corinthios i": "1 corinthians",
+  "ad corinthios ii": "2 corinthians",
+  "ad galatas": "galatians",
+  "ad ephesios": "ephesians",
+  "ad philippenses": "philippians",
+  "ad colossenses": "colossians",
+  "ad thessalonicenses i": "1 thessalonians",
+  "ad thessalonicenses ii": "2 thessalonians",
+  "ad timotheum i": "1 timothy",
+  "ad timotheum ii": "2 timothy",
+  "ad titum": "titus",
+  "ad philemonem": "philemon",
+  "ad hebraeos": "hebrews",
+  "iacobi": "james",
+  "petri i": "1 peter",
+  "petri ii": "2 peter",
+  "ioannis i": "1 john",
+  "ioannis ii": "2 john",
+  "ioannis iii": "3 john",
+  "iudae": "jude",
+  "apocalypsis": "revelation",
+  "iudith": "judith",
+  "sapientia": "wisdom",
+  "i machabaeorum": "1 maccabees",
+  "ii machabaeorum": "2 maccabees",
+
   // Church History
   "acts": "acts",
   "act": "acts",
@@ -699,6 +783,20 @@ export class BibleService {
     const bookPart = reference.replace(/\s+\d+.*$/, "").toLowerCase().trim();
     if (SPANISH_BOOK_NAMES.has(bookPart)) {
       return DEFAULT_SPANISH_VERSION;
+    }
+    return undefined;
+  }
+
+  /**
+   * Detect if a raw reference string uses a Latin book name.
+   * Returns the default Latin version if so, otherwise undefined.
+   * Books with the same name in English and Latin default to English.
+   */
+  detectLatinDefault(reference: string): string | undefined {
+    // Strip chapter:verse from the end to get just the book name
+    const bookPart = reference.replace(/\s+\d+.*$/, "").toLowerCase().trim();
+    if (LATIN_BOOK_NAMES.has(bookPart)) {
+      return DEFAULT_LATIN_VERSION;
     }
     return undefined;
   }
